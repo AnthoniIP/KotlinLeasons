@@ -65,3 +65,42 @@ class String : Comparable<String> {
 fun <T: Number> oneHalf(value : T) : Double {
 	return value.toDouble() / 2.0
 }
+
+//Função para comparar o máximo entre dois itens:
+fun <T: Comparable<T>> max(first: T,second : T) : T {
+	return if(first > second) first else second
+}
+
+//Especificando varias retrições para um parâmetro de tipo:
+// nesse exemplo T precisa Implementar as interfaces CharSequence e Appendable
+fun <T> ensureTrailingPeriod(seq: T) where T: CharSequence,T: Appendable {
+	if(!seq.endsWIth(".") //Função de extensão presente para CharSequence) {
+		sec.append(".") // metodo presente em Appendable
+	}
+}
+
+//Garatindo que os parametros de tipo sejam não null
+
+// por padrão os parametros de tipo sempre seram nullable, mesmo não tendo "?"
+// para contornar isso basta usar Any ou qualquer tipo não nullable como limite superior:
+class Processor<T : Any> {
+	fun process(value : T) {
+		value.hashCode()
+	}
+}
+
+//Em tempo de execução as informações sobre o tipo de uma instancia não são mantidos
+// Caso necessario, podemos contornar isso usando reificando os tipos:
+
+//para verificar por exemplo em tempo de execução de uma variavel é do tipo list:
+
+//Star Projection
+if(value is List<*>) {
+	/* ... */
+}
+
+//Usando um cast de tipo com tipo genérico:
+fun printSum(c: Collection<*>) {
+	val intList = c as? List<Int> ?: throw IllegalArgumentException("List is expected")
+	println(intList.sum())
+}
