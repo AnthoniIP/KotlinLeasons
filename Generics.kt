@@ -38,6 +38,30 @@ val <T> List<T>.last : T
 println(list.penultimate) // saida: 3
 println(list.last) //saida: 4
 
-//declarando classes genericas:
+//declarando classes ou interfaces genericas:
+interface List<T> {
+	//o operador get() é o equivalente ao [] para pegar o elemento no index x de uma lista
+	operator fun get(index: Int) : T
 
+}
+//classes que erdam de tipo generico ou implementam uma interface generica
+// devem fornecer um argumento de tipo para o parametro generico do tipo-base
+class StringList : List<String>{
+		override fun get(index: Int) : String = ...
+}
+class ArrayList<T> : List<T> {
+	override fun get(index: Int) : T = ...
+}
 
+//Uma classe pode se referir a ela mesma como parametro de tipo:
+interface Comparable<T> {
+	fun compareTo(other : T) : Int
+}
+class String : Comparable<String> {
+	override fun compareTo(other: String) : Int = /* ... */
+}
+
+//Restrições para parâmetros de tipo
+fun <T: Number> oneHalf(value : T) : Double {
+	return value.toDouble() / 2.0
+}
